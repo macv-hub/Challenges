@@ -13,10 +13,12 @@ print("{0} goes in {1} {2} times".format(num_2,num_1,result))
 # %%
 #IS IT RAINING?
 
-rain = input("Is it raining? ")
+raining = input("Is it raining? ")
+raining = str.lower(raining)
 
-if rain == "yes":
+if raining == "yes":
     windy = input("Is it windy? ")
+    windy = str.lower(windy)
     if windy == "yes":
         print("it's too windy for an umbrella")
     else:
