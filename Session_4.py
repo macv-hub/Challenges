@@ -4,10 +4,10 @@
 #Calculates the Bending Moment capacity MRd of a section
 
 #Geometry
-b = 1000 #mm
+b = 1970 #mm
 h = 600 #mm
-c = 70 #mm
-phi = 25 #mm
+c = 50 #mm
+phi = 50 #mm
 dst = h-c-phi/2
 dsc = c+phi/2
 
@@ -16,8 +16,8 @@ fyk = 500 #MPa
 fck = 40 #Mpa
 
 #Reinforcement
-Asc = 2000
-Ast = 4000
+Asc = 9820
+Ast = 9820
 
 
 # %%
@@ -68,9 +68,13 @@ def rel_s(eps):
 
 x_min = dst/((eps_su/eps_cu)+1)
 x_max = dst/((eps_y/eps_cu)+1)
-x = 0.1
+x1 = 0
+x2 = x_max
 while True:     #while True means the loop will go indefinitely until a condition breaks it
     #Strains and stresses
+
+    x = (x1+x2)/2   #Bisection method to find the NA. Since the increment method wasn't very effective, we use this! :)
+
     if x <= x_min: #The strain plane pivots around the bottom steel ultimate strain until the top concrete reaches its ultimate strain, then the top concrete pivots the strain plane until the bottom steel yields (balanced condition)
         eps_c = (eps_su/(dst-x))*x  
     else:
@@ -95,15 +99,17 @@ while True:     #while True means the loop will go indefinitely until a conditio
     #Moment about tension steel
     MRd = Fcc*(dst-x/2)+Fsc*(dst-dsc)
 
-    if abs(Fxx) <= 100: #100N is good enough, more increments slow down the programme with no real change of the NA
+    if Fxx > 0.01:
+        x2 = x
+    elif Fxx < -0.01:
+        x1 = x
+    else: 
         break           #if the condition is satisfied then the loop breaks
-    else:
-        x += 0.001       #Otherwise we try an increment of our choice, if the loop takes too long, either make the step smaller or the acceptance criteria bigger
-        #Remember x += n means x = x+n
+    
 
 
 # %%
-print("x={} mm\nMRd={} KNm".format(round(x,3),round(MRd/1000000,3)))
+print("x={} mm\nFxx={} N\nMRd={} KNm".format(round(x,3),round(Fxx,3),round(MRd/1000000,3)))
 
 
 # %%
