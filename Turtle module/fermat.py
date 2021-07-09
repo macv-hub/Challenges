@@ -73,7 +73,7 @@ def recurse(n,s):
         else:
             recurse(n-1, n+s)
     except RecursionError:
-        print('\nn can\'t be negative you punk!\n')
+        print('\nn can\'t be negative you Silly Billy!\n')
 
 def draw(t, length, n):
     if n == 0:
