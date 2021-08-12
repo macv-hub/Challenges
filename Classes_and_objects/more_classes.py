@@ -1,6 +1,6 @@
 import random
 
-class arcadian:
+class colleague:
 
     def __init__(self, name='',pet=''):
         self.name = name
@@ -33,15 +33,15 @@ class arcadian:
         }
         n = random.randint(1,4)
         m = random.randint(1,4)
-        return arcadian(names[n], pets[m])
+        return colleague(names[n], pets[m])
 
 if __name__ == '__main__':
 
-    a1 = arcadian('Manuel', 'dog')
-    a2 = arcadian('Liam', 'cat')
+    a1 = colleague('Manuel', 'dog')
+    a2 = colleague('Liam', 'cat')
     a1.speak()
     a2.speak()
-    a3 = arcadian.generate()
+    a3 = colleague.generate()
     a3.speak()
-    a4 = arcadian.generate()
+    a4 = colleague.generate()
     a4.speak()
